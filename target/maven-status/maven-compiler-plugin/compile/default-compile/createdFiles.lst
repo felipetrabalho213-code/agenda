@@ -1,0 +1,7 @@
+controle\ControleAgenda.class
+modelo\AgendaDAO.class
+visao\ViewPrincipal$1.class
+modelo\ModeloAgenda.class
+visao\ViewPrincipal.class
+visao\ViewTarefas.class
+visao\ViewPrincipal$2.class
