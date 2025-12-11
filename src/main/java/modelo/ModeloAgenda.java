@@ -1,31 +1,32 @@
-
 package modelo;
 
 public class ModeloAgenda {
-       private String nome;
-    private String cpf;
-    private int idade;
+    private String descricao;
+    private String prioridade;
 
-    // Construtor completo
-    public ModeloAgenda(String nome, String cpf, int idade) {
-        this.nome = nome;
-        this.cpf = cpf;
-        this.idade = idade;
+    public ModeloAgenda(String descricao, String prioridade) {
+        this.descricao = descricao;
+        this.prioridade = prioridade;
     }
 
-    // Método para formatar o objeto como uma linha para o arquivo
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public String getPrioridade() {
+        return prioridade;
+    }
+
+    public void setPrioridade(String prioridade) {
+        this.prioridade = prioridade;
+    }
+
+    // Formato para salvar no arquivo
     public String toFileString() {
-        return nome + ";" + cpf + ";" + idade;
+        return descricao + ";" + prioridade;
     }
-
-    // Getters
-    public String getNome() { return nome; }
-    public String getCpf() { return cpf; }
-    public int getIdade() { return idade; }
-
-    // Setters (para atualização)
-    public void setNome(String nome) { this.nome = nome; }
-    public void setCpf(String cpf) { this.cpf = cpf; }
-    public void setIdade(int idade) { this.idade = idade; }
 }
-

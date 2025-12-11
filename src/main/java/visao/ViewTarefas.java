@@ -3,7 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package visao;
-
+import javax.swing.table.DefaultTableModel;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Felipe
@@ -17,6 +20,21 @@ public class ViewTarefas extends javax.swing.JFrame {
      */
     public ViewTarefas() {
         initComponents();
+        // ... dentro do seu construtor ou do método initComponents()
+    jTableTarefas.setModel(new javax.swing.table.DefaultTableModel(
+    new Object [][] {
+        // Se você quiser que a tabela comece vazia, deixe esta parte vazia:
+        // {null, null, null},
+    },
+    new String [] {
+        "Título da tarefa", "Nível de prioridade", "Data de criação" // Nomes das colunas
+    }
+));
+// ...
+       jComboBoxPrioridade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { 
+    "Alto", "Médio", "Baixo" 
+}));
+
     }
 
     /**
@@ -31,11 +49,12 @@ public class ViewTarefas extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         labelTitulo = new javax.swing.JLabel();
         labelGerenciadorDeTarefas = new javax.swing.JLabel();
-        caixaDeTexto = new javax.swing.JTextField();
+        jTextFieldTitulo = new javax.swing.JTextField();
         botaoAdicionar = new javax.swing.JButton();
         BotaoRemover = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabelaTarefas = new javax.swing.JTable();
+        jTableTarefas = new javax.swing.JTable();
+        jComboBoxPrioridade = new javax.swing.JComboBox<>();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
 
@@ -53,32 +72,49 @@ public class ViewTarefas extends javax.swing.JFrame {
         labelGerenciadorDeTarefas.setForeground(new java.awt.Color(255, 255, 255));
         labelGerenciadorDeTarefas.setText("Gerenciador de Tarefas");
 
+        jTextFieldTitulo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldTituloActionPerformed(evt);
+            }
+        });
+
         botaoAdicionar.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 12)); // NOI18N
         botaoAdicionar.setText("Adicionar");
+        botaoAdicionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoAdicionarActionPerformed(evt);
+            }
+        });
 
         BotaoRemover.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 12)); // NOI18N
         BotaoRemover.setText("Remover");
 
-        tabelaTarefas.setModel(new javax.swing.table.DefaultTableModel(
+        jTableTarefas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Titulo da tarefa", "Nivel de prioridade", "Data de criação"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tabelaTarefas);
+        jScrollPane1.setViewportView(jTableTarefas);
+
+        jComboBoxPrioridade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "alta", "baixa", "media", " " }));
+        jComboBoxPrioridade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxPrioridadeActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -90,7 +126,9 @@ public class ViewTarefas extends javax.swing.JFrame {
                         .addGap(39, 39, 39)
                         .addComponent(labelTitulo)
                         .addGap(18, 18, 18)
-                        .addComponent(caixaDeTexto, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTextFieldTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(78, 78, 78)
+                        .addComponent(jComboBoxPrioridade, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(66, 66, 66)
                         .addComponent(botaoAdicionar)
@@ -112,7 +150,8 @@ public class ViewTarefas extends javax.swing.JFrame {
                 .addGap(63, 63, 63)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelTitulo)
-                    .addComponent(caixaDeTexto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxPrioridade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botaoAdicionar)
@@ -142,6 +181,48 @@ public class ViewTarefas extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jComboBoxPrioridadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxPrioridadeActionPerformed
+        
+    }//GEN-LAST:event_jComboBoxPrioridadeActionPerformed
+
+    private void jTextFieldTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldTituloActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldTituloActionPerformed
+
+    private void botaoAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoAdicionarActionPerformed
+    // 1. Obter o modelo da tabela
+    // Certifique-se de que o nome da sua JTable está correto
+    DefaultTableModel modelo = (DefaultTableModel) jTableTarefas.getModel();
+    
+    // 2. Obter os dados dos componentes
+    // Certifique-se de que o nome do seu JTextField está correto
+    String titulo = jTextFieldTitulo.getText();
+    
+    // Certifique-se de que o nome do seu JComboBox está correto
+    String prioridade = (String) jComboBoxPrioridade.getSelectedItem();
+    
+    // 3. Obter a data atual formatada
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    String dataCriacao = sdf.format(new Date());
+    
+    // 4. Validação e Inserção
+    if (!titulo.trim().isEmpty()) { // Verifica se o título não está vazio ou só com espaços
+        // A ordem deve coincidir com a ordem das colunas no seu DefaultTableModel:
+        // ["Título da tarefa", "Nível de prioridade", "Data de criação"]
+        Object[] linha = new Object[]{titulo, prioridade, dataCriacao};
+        
+        // Adiciona a nova linha
+        modelo.addRow(linha);
+        
+        // Opcional: Limpar o campo de texto e resetar o ComboBox
+        jTextFieldTitulo.setText("");
+        jComboBoxPrioridade.setSelectedIndex(0); 
+    } else {
+        // Exibe uma mensagem de erro se o título estiver vazio
+        JOptionPane.showMessageDialog(this, "O título da tarefa não pode estar vazio.", "Erro de Entrada", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_botaoAdicionarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -170,13 +251,14 @@ public class ViewTarefas extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotaoRemover;
     private javax.swing.JButton botaoAdicionar;
-    private javax.swing.JTextField caixaDeTexto;
+    private javax.swing.JComboBox<String> jComboBoxPrioridade;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTableTarefas;
+    private javax.swing.JTextField jTextFieldTitulo;
     private javax.swing.JLabel labelGerenciadorDeTarefas;
     private javax.swing.JLabel labelTitulo;
-    private javax.swing.JTable tabelaTarefas;
     // End of variables declaration//GEN-END:variables
 }

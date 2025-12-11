@@ -1,133 +1,100 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package modelo;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- *
- * @author Felipe
- */
 public class AgendaDAO {
-        // Arquivo onde os dados serao salvos
-    private static final String NOME_ARQUIVO = "clientes_db.txt"; // SUBSTITUIR AQUI O NOME DO ARQUIVO QUE VC VAI CRIAR
-    
-    // Metodo auxiliar para converter uma linha de texto em um objeto ModelCliente
-    private ModeloAgenda parseCliente(String linha) {
+
+    private static final String NOME_ARQUIVO = "agenda_db.txt";
+
+    // Converte uma linha do arquivo em ModeloTarefa
+    private ModeloAgenda parseTarefa(String linha) {
         String[] partes = linha.split(";");
-        if (partes.length == 3) {
-            try {
-                String nome = partes[0];
-                String cpf = partes[1];
-                int idade = Integer.parseInt(partes[2]);
-                return new ModeloAgenda(nome, cpf, idade);
-            } catch (NumberFormatException e) {
-                // Ignora linhas com idade inválida, mas avisa no console
-                System.err.println("Linha ignorada por formato de idade inválido: " + linha);
-            }
+        if (partes.length == 2) {
+            String descricao = partes[0];
+            String prioridade = partes[1];
+            return new ModeloAgenda(descricao, prioridade);
         }
         return null;
     }
 
-   
-    // pega todoa os clientes do arquivo e retorna uma lista de ModelCliente
+    // Lista todas as tarefas
     public List<ModeloAgenda> listarTodos() {
-        List<ModeloAgenda> clientes = new ArrayList<>();
+        List<ModeloAgenda> tarefas = new ArrayList<>();
         File arquivo = new File(NOME_ARQUIVO);
-        
+
         if (!arquivo.exists() || arquivo.length() == 0) {
-            return clientes; // retorna lista vazia se o arquivo nao existe ou ta vazio
+            return tarefas;
         }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(NOME_ARQUIVO))) {
             String linha;
             while ((linha = reader.readLine()) != null) {
                 if (linha.trim().isEmpty()) continue;
-                
-                ModeloAgenda cliente = parseCliente(linha);
-                if (cliente != null) {
-                    clientes.add(cliente);
+
+                ModeloAgenda tarefa = parseTarefa(linha);
+                if (tarefa != null) {
+                    tarefas.add(tarefa);
                 }
             }
         } catch (IOException e) {
-            System.err.println("Erro ao ler arquivo de clientes: " + e.getMessage());
+            System.err.println("Erro ao ler arquivo: " + e.getMessage());
         }
-        return clientes;
+
+        return tarefas;
     }
 
-    /**
-     * Salva um novo cliente, coloca mais um cliente na abaixo da ultima linha escrita do arquivo
-     */
-    public void salvar(ModeloAgenda cliente) {
+    // Salva nova tarefa
+    public void salvar(ModeloAgenda tarefa) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(NOME_ARQUIVO, true))) {
-            writer.write(cliente.toFileString());
+            writer.write(tarefa.toFileString());
             writer.newLine();
         } catch (IOException e) {
-            System.err.println("Erro ao salvar cliente no arquivo: " + e.getMessage());
+            System.err.println("Erro ao salvar tarefa: " + e.getMessage());
         }
     }
-    
-    /**
-     * Atualiza um cliente existente (busca pelo CPF e reescreve o arquivo)
-     */
-    // busca pelo cpf e se achar chama o metodo que reescreve a linha no arquivo
-    public boolean atualizar(ModeloAgenda clienteAtualizado) {
-        // le todos os clientes
-        List<ModeloAgenda> clientes = listarTodos();
+
+    // Atualiza tarefa existente (busca pela descrição)
+    public boolean atualizar(ModeloAgenda tarefaAtualizada) {
+        List<ModeloAgenda> tarefas = listarTodos();
         boolean encontrado = false;
-        
-        // procura e atualiza na linha da memoria
-        for (int i = 0; i < clientes.size(); i++) {
-            if (clientes.get(i).getCpf().equals(clienteAtualizado.getCpf())) {
-                clientes.set(i, clienteAtualizado); // quem vai substituir o cliente naquela linha
+
+        for (int i = 0; i < tarefas.size(); i++) {
+            if (tarefas.get(i).getDescricao().equals(tarefaAtualizada.getDescricao())) {
+                tarefas.set(i, tarefaAtualizada);
                 encontrado = true;
                 break;
             }
         }
 
         if (encontrado) {
-            // reescreve TODO o arquivo com a nova lista com o cliente atualizado
-            reescreverArquivo(clientes);
+            reescreverArquivo(tarefas);
             return true;
         }
         return false;
     }
 
-    // busca pelo cpf e se o cliente existir ele apaga aquela linha e deleta ele do banco de daods
-    public boolean deletar(String cpf) {
-        // le todos os clientes
-        List<ModeloAgenda> clientes = listarTodos();
-        
-        // cria uma nova lista sem o cliente
-        List<ModeloAgenda> clientesRestantes = clientes.stream()
-            .filter(c -> !c.getCpf().equals(cpf))
-            .collect(Collectors.toList());
-        
-        // ver se o cliente foi alterado ou removido
-        if (clientesRestantes.size() < clientes.size()) {
-            // reescreve todo arquivo sem o cliente que foi deletado
-            reescreverArquivo(clientesRestantes);
+    // Deleta tarefa (busca pela descrição)
+    public boolean deletar(String descricao) {
+        List<ModeloAgenda> tarefas = listarTodos();
+        List<ModeloAgenda> restantes = tarefas.stream()
+                .filter(t -> !t.getDescricao().equals(descricao))
+                .collect(Collectors.toList());
+
+        if (restantes.size() < tarefas.size()) {
+            reescreverArquivo(restantes);
             return true;
         }
         return false;
     }
-    
-    // metodo pra auxiliar a reescrever o arquivo
-    private void reescreverArquivo(List<ModeloAgenda> clientes) {
+
+    // Reescreve o arquivo
+    private void reescreverArquivo(List<ModeloAgenda> tarefas) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(NOME_ARQUIVO, false))) {
-            // usa "false" para sobreescrever o metodo existente
-            for (ModeloAgenda cliente : clientes) {
-                writer.write(cliente.toFileString());
+            for (ModeloAgenda tarefa : tarefas) {
+                writer.write(tarefa.toFileString());
                 writer.newLine();
             }
         } catch (IOException e) {
@@ -135,4 +102,3 @@ public class AgendaDAO {
         }
     }
 }
-

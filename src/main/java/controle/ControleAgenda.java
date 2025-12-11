@@ -1,55 +1,49 @@
-
 package controle;
 
-import java.util.List;
 import modelo.AgendaDAO;
 import modelo.ModeloAgenda;
+import java.util.List;
 
 public class ControleAgenda {
 
-  private AgendaDAO dao = new AgendaDAO();
+    private AgendaDAO dao = new AgendaDAO();
 
-  
-    public boolean cadastrarCliente(String nome, String cpf, int idade) {
-     
-        if (nome == null || nome.trim().isEmpty() || cpf == null || cpf.trim().isEmpty()) {
-            System.err.println("Erro: Nome e CPF não podem ser vazios.");
+    // Cadastrar nova tarefa
+    public boolean cadastrarTarefa(String descricao, String prioridade) {
+        if (descricao == null || descricao.trim().isEmpty()) {
+            System.err.println("Erro: Descrição da tarefa não pode ser vazia.");
             return false;
         }
-        
-        // cria o objeto ModelCliente
-        ModeloAgenda novoCliente = new ModeloAgenda(nome, cpf, idade);
-        
-        // delega a persistência ao DAO
-        dao.salvar(novoCliente);
+
+        ModeloAgenda novaTarefa = new ModeloAgenda(descricao, prioridade);
+        dao.salvar(novaTarefa);
         return true;
     }
-    
- 
-    public ModeloAgenda buscarClientePorCpf(String cpf) {
-        List<ModeloAgenda> clientes = dao.listarTodos();
-        
-        // busca o cliente na lista
-        for (ModeloAgenda cliente : clientes) {
-            if (cliente.getCpf().equals(cpf)) {
-                return cliente; // Cliente encontrado
+
+    // Buscar tarefa pela descrição
+    public ModeloAgenda buscarTarefaPorDescricao(String descricao) {
+        List<ModeloAgenda> tarefas = dao.listarTodos();
+        for (ModeloAgenda tarefa : tarefas) {
+            if (tarefa.getDescricao().equals(descricao)) {
+                return tarefa;
             }
         }
-        return null; // cliente nao encontrado
-    }
- 
-    public boolean atualizarCliente(String nome, String cpf, int novaIdade) {
-        // cpf é a chave
-        ModeloAgenda clienteAtualizado = new ModeloAgenda(nome, cpf, novaIdade);
-        
-        // delega a persistência ao DAO
-        return dao.atualizar(clienteAtualizado);
+        return null;
     }
 
-   
-    public boolean deletarCliente(String cpf) {
-        // delega a deleção ao DAO
-        return dao.deletar(cpf);
+    // Atualizar tarefa existente
+    public boolean atualizarTarefa(String descricao, String novaPrioridade) {
+        ModeloAgenda tarefaAtualizada = new ModeloAgenda(descricao, novaPrioridade);
+        return dao.atualizar(tarefaAtualizada);
+    }
+
+    // Deletar tarefa
+    public boolean deletarTarefa(String descricao) {
+        return dao.deletar(descricao);
+    }
+
+    // Listar todas as tarefas
+    public List<ModeloAgenda> listarTarefas() {
+        return dao.listarTodos();
     }
 }
-
