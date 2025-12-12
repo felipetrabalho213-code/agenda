@@ -33,8 +33,11 @@ public class ControleAgenda {
 
     // Atualizar tarefa existente
     public boolean atualizarTarefa(String descricao, String novaPrioridade) {
+        System.out.println("ControleAgenda.atualizarTarefa() -> descricao='" + descricao + "', novaPrioridade='" + novaPrioridade + "'");
         ModeloAgenda tarefaAtualizada = new ModeloAgenda(descricao, novaPrioridade);
+        
         return dao.atualizar(tarefaAtualizada);
+        
     }
 
     // Deletar tarefa

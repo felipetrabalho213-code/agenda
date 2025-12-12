@@ -12,18 +12,26 @@ public class ViewTarefas extends javax.swing.JFrame {
 
     public ViewTarefas() {
         initComponents();
-    jTableTarefas.setModel(new javax.swing.table.DefaultTableModel(
-    new Object [][] {
-    },
-    new String [] {
-        "Título da tarefa", "Nível de prioridade", "Data de criação" // Nomes das colunas
-    }
-));
+    
+        jTableTarefas.getSelectionModel().addListSelectionListener(e -> {
+            int linha = jTableTarefas.getSelectedRow();
+            if (linha >= 0) {
+                jTextFieldTitulo.setText(jTableTarefas.getValueAt(linha, 0).toString());
+                jComboBoxPrioridade.setSelectedItem(jTableTarefas.getValueAt(linha, 1).toString());
+            }
+        });
 
-       jComboBoxPrioridade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { 
-    "Alto", "Médio", "Baixo" 
-}));
+        jTableTarefas.setModel(new javax.swing.table.DefaultTableModel(
+        new Object [][] {
+        },
+        new String [] {
+            "Título da tarefa", "Nível de prioridade", "Data de criação" // Nomes das colunas
+        })
+        );
 
+       jComboBoxPrioridade.setModel(new javax.swing.DefaultComboBoxModel<>(
+        new String[] {"Alto", "Médio", "Baixo"})
+       );
     }
 
     @SuppressWarnings("unchecked")
@@ -109,6 +117,11 @@ public class ViewTarefas extends javax.swing.JFrame {
 
         botaoAtualizar.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 12)); // NOI18N
         botaoAtualizar.setText("Atualizar");
+        botaoAtualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoAtualizarActionPerformed(evt);
+            }
+        });
 
         jButton1.setFont(new java.awt.Font("Rockwell Extra Bold", 0, 12)); // NOI18N
         jButton1.setText("Listar tarefas");
@@ -257,6 +270,40 @@ public class ViewTarefas extends javax.swing.JFrame {
         // TODO add your handling code here:
         listarTodasAsTarefas();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void botaoAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoAtualizarActionPerformed
+        int linha = jTableTarefas.getSelectedRow();
+
+        if (linha < 0) {
+            JOptionPane.showMessageDialog(this, "Selecione uma tarefa para atualizar.");
+            return;
+        }
+
+        String descricaoAntiga = jTableTarefas.getValueAt(linha, 0).toString();
+        String novaDescricao = jTextFieldTitulo.getText();
+        String novaPrioridade = jComboBoxPrioridade.getSelectedItem().toString();
+
+        if (novaDescricao.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "O título não pode estar vazio.");
+            return;
+        }
+
+        ControleAgenda controle = new ControleAgenda();
+
+        // Atualiza no DAO
+        boolean sucesso = controle.atualizarTarefa(novaDescricao, novaPrioridade);
+
+        if (sucesso) {
+            JOptionPane.showMessageDialog(this, "Tarefa atualizada com sucesso!");
+
+            // Atualiza a tabela visualmente
+            jTableTarefas.setValueAt(novaDescricao, linha, 0);
+            jTableTarefas.setValueAt(novaPrioridade, linha, 1);
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao atualizar tarefa.");
+        }
+    }//GEN-LAST:event_botaoAtualizarActionPerformed
     private void listarTodasAsTarefas() {
 
         ControleAgenda controle = new ControleAgenda();
@@ -282,6 +329,7 @@ StringBuilder msg = new StringBuilder("Tarefas agendadas:\n\n");
 
     JOptionPane.showMessageDialog(this, msg.toString());
 }
+    
     public static void main(String args[]) {
   
         java.awt.EventQueue.invokeLater(() -> new ViewTarefas().setVisible(true));

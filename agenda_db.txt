@@ -1,7 +1,10 @@
 escovar os dentes;Alto
 entregar trabalho;Alto
+dormir;Alto
 dormir;Baixo
-dormir;Baixo
-entregar atividade;Alto
+entregar atividade;Médio
 teste;Médio
-Teste - Priscila;Alto
+Teste - Priscila;Médio
+Teste 2 - Priscila;Alto
+dormir;Alto
+Entragar projeto;Alto
