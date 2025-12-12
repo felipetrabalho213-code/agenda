@@ -35,7 +35,7 @@ public class ViewTarefas extends javax.swing.JFrame {
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
@@ -204,23 +204,23 @@ public class ViewTarefas extends javax.swing.JFrame {
 
         pack();
         setLocationRelativeTo(null);
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
-    private void jComboBoxPrioridadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxPrioridadeActionPerformed
+    private void jComboBoxPrioridadeActionPerformed(java.awt.event.ActionEvent evt) {                                                    
         
-    }//GEN-LAST:event_jComboBoxPrioridadeActionPerformed
+    }                                                   
 
-    private void jTextFieldTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldTituloActionPerformed
-    }//GEN-LAST:event_jTextFieldTituloActionPerformed
+    private void jTextFieldTituloActionPerformed(java.awt.event.ActionEvent evt) {                                                 
+    }                                                
 
-    private void botaoAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoAdicionarActionPerformed
+    private void botaoAdicionarActionPerformed(java.awt.event.ActionEvent evt) {                                               
     DefaultTableModel modelo = (DefaultTableModel) jTableTarefas.getModel();
 
     String titulo = jTextFieldTitulo.getText();
     
     String prioridade = (String) jComboBoxPrioridade.getSelectedItem();
     
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     String dataCriacao = sdf.format(new Date());
     
     if (!titulo.trim().isEmpty()) { 
@@ -241,9 +241,9 @@ public class ViewTarefas extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Erro!");
 
     }
-    }//GEN-LAST:event_botaoAdicionarActionPerformed
+    }                                              
 
-    private void BotaoRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoRemoverActionPerformed
+    private void BotaoRemoverActionPerformed(java.awt.event.ActionEvent evt) {                                             
         // TODO add your handling code here:
         int linha = jTableTarefas.getSelectedRow();
 
@@ -264,78 +264,86 @@ public class ViewTarefas extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Erro ao remover a tarefa do arquivo!");
         }    
-    }//GEN-LAST:event_BotaoRemoverActionPerformed
+    }                                            
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
         listarTodasAsTarefas();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }                                        
 
-    private void botaoAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoAtualizarActionPerformed
-        int linha = jTableTarefas.getSelectedRow();
+    private void botaoAtualizarActionPerformed(java.awt.event.ActionEvent evt) {                                               
+ int linha = jTableTarefas.getSelectedRow();
 
-        if (linha < 0) {
-            JOptionPane.showMessageDialog(this, "Selecione uma tarefa para atualizar.");
-            return;
-        }
+    if (linha < 0) {
+        JOptionPane.showMessageDialog(this, "Selecione uma tarefa para atualizar.");
+        return;
+    }
 
-        String descricaoAntiga = jTableTarefas.getValueAt(linha, 0).toString();
-        String novaDescricao = jTextFieldTitulo.getText();
-        String novaPrioridade = jComboBoxPrioridade.getSelectedItem().toString();
+    // Dados originais da linha selecionada
+    String descricaoOriginal = jTableTarefas.getValueAt(linha, 0).toString();
 
-        if (novaDescricao.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "O título não pode estar vazio.");
-            return;
-        }
+    // Novos valores digitados
+    String novaDescricao = jTextFieldTitulo.getText().trim();
+    String novaPrioridade = jComboBoxPrioridade.getSelectedItem().toString();
 
-        ControleAgenda controle = new ControleAgenda();
+    if (novaDescricao.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "O título não pode estar vazio.");
+        return;
+    }
 
-        // Atualiza no DAO
-        boolean sucesso = controle.atualizarTarefa(novaDescricao, novaPrioridade);
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    String novaDataCriacao = sdf.format(new Date());
 
-        if (sucesso) {
-            JOptionPane.showMessageDialog(this, "Tarefa atualizada com sucesso!");
+    ControleAgenda controle = new ControleAgenda();
 
-            // Atualiza a tabela visualmente
-            jTableTarefas.setValueAt(novaDescricao, linha, 0);
-            jTableTarefas.setValueAt(novaPrioridade, linha, 1);
+    // Atualiza tarefa passando a *descrição original*
+    boolean sucesso = controle.atualizarTarefa(descricaoOriginal, novaDescricao, novaPrioridade, novaDataCriacao);
 
-        } else {
-            JOptionPane.showMessageDialog(this, "Erro ao atualizar tarefa.");
-        }
-    }//GEN-LAST:event_botaoAtualizarActionPerformed
+    if (sucesso) {
+        JOptionPane.showMessageDialog(this, "Tarefa atualizada com sucesso!");
+
+        listarTodasAsTarefas();
+
+    } else {
+        JOptionPane.showMessageDialog(this, "Erro ao atualizar tarefa.");
+    }
+    }                                              
+    
     private void listarTodasAsTarefas() {
 
-        ControleAgenda controle = new ControleAgenda();
-        java.util.List<modelo.ModeloAgenda> tarefas = controle.listarTarefas();
+    ControleAgenda controle = new ControleAgenda();
+    java.util.List<modelo.ModeloAgenda> tarefas = controle.listarTarefas();
 
-        DefaultTableModel modelo = (DefaultTableModel) jTableTarefas.getModel();
-        modelo.setRowCount(0);
+    DefaultTableModel modelo = (DefaultTableModel) jTableTarefas.getModel();
+    modelo.setRowCount(0);
 
-        for (modelo.ModeloAgenda t : tarefas) {
-            modelo.addRow(new Object[]{
-                t.getDescricao(),
-                t.getPrioridade(),
-            });
-        }
-StringBuilder msg = new StringBuilder("Tarefas agendadas:\n\n");
+    for (modelo.ModeloAgenda t : tarefas) {
+        modelo.addRow(new Object[]{
+            t.getDescricao(),
+            t.getPrioridade(),
+            t.getDataCriacao()
+        });
+    }
+
+    StringBuilder msg = new StringBuilder("Tarefas agendadas:\n\n");
 
     for (modelo.ModeloAgenda t : tarefas) {
         msg.append(t.getDescricao())
            .append(" - ")
            .append(t.getPrioridade())
+           .append(" - Criada em: ")
+           .append(t.getDataCriacao())
            .append("\n");
     }
 
     JOptionPane.showMessageDialog(this, msg.toString());
-}
-    
+}    
     public static void main(String args[]) {
   
         java.awt.EventQueue.invokeLater(() -> new ViewTarefas().setVisible(true));
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify                     
     private javax.swing.JButton BotaoRemover;
     private javax.swing.JButton botaoAdicionar;
     private javax.swing.JButton botaoAtualizar;
@@ -349,7 +357,7 @@ StringBuilder msg = new StringBuilder("Tarefas agendadas:\n\n");
     private javax.swing.JTextField jTextFieldTitulo;
     private javax.swing.JLabel labelGerenciadorDeTarefas;
     private javax.swing.JLabel labelTitulo;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration                   
 
     private boolean removerDoTxt(int linha) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

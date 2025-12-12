@@ -8,7 +8,6 @@ public class ControleAgenda {
 
     private AgendaDAO dao = new AgendaDAO();
 
-    // Cadastrar nova tarefa
     public boolean cadastrarTarefa(String descricao, String prioridade) {
         if (descricao == null || descricao.trim().isEmpty()) {
             System.err.println("Erro: Descrição da tarefa não pode ser vazia.");
@@ -20,7 +19,6 @@ public class ControleAgenda {
         return true;
     }
 
-    // Buscar tarefa pela descrição
     public ModeloAgenda buscarTarefaPorDescricao(String descricao) {
         List<ModeloAgenda> tarefas = dao.listarTodos();
         for (ModeloAgenda tarefa : tarefas) {
@@ -31,21 +29,25 @@ public class ControleAgenda {
         return null;
     }
 
-    // Atualizar tarefa existente
-    public boolean atualizarTarefa(String descricao, String novaPrioridade) {
-        System.out.println("ControleAgenda.atualizarTarefa() -> descricao='" + descricao + "', novaPrioridade='" + novaPrioridade + "'");
-        ModeloAgenda tarefaAtualizada = new ModeloAgenda(descricao, novaPrioridade);
-        
-        return dao.atualizar(tarefaAtualizada);
-        
+    public boolean atualizarTarefa(String descricaoAntiga, String novaDescricao, String novaPrioridade, String novaDataCriacao) {
+
+        ModeloAgenda tarefa = buscarTarefaPorDescricao(descricaoAntiga);
+
+        if (tarefa == null) {
+            return false;
+        }
+
+        tarefa.setDescricao(novaDescricao);
+        tarefa.setPrioridade(novaPrioridade);
+        tarefa.setDataCriacao(novaDataCriacao);
+
+        return dao.atualizar(descricaoAntiga, tarefa);
     }
 
-    // Deletar tarefa
     public boolean deletarTarefa(String descricao) {
         return dao.deletar(descricao);
     }
 
-    // Listar todas as tarefas
     public List<ModeloAgenda> listarTarefas() {
         return dao.listarTodos();
     }
