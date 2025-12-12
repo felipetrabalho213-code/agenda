@@ -1,1 +1,6 @@
 hello2;Alto
+escovar os dentes;Alto
+entregar trabalho;Alto
+dormir;Baixo
+dormir;Baixo
+entregar atividade;Alto

@@ -40,6 +40,7 @@ public class ViewTarefas extends javax.swing.JFrame {
         jTableTarefas = new javax.swing.JTable();
         jComboBoxPrioridade = new javax.swing.JComboBox<>();
         botaoAtualizar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
 
@@ -109,6 +110,14 @@ public class ViewTarefas extends javax.swing.JFrame {
         botaoAtualizar.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 12)); // NOI18N
         botaoAtualizar.setText("Atualizar");
 
+        jButton1.setFont(new java.awt.Font("Rockwell Extra Bold", 0, 12)); // NOI18N
+        jButton1.setText("Listar tarefas");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -137,7 +146,9 @@ public class ViewTarefas extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(botaoAtualizar)
-                .addGap(351, 351, 351))
+                .addGap(48, 48, 48)
+                .addComponent(jButton1)
+                .addGap(228, 228, 228))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,11 +164,13 @@ public class ViewTarefas extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botaoAdicionar)
                     .addComponent(BotaoRemover))
-                .addGap(43, 43, 43)
-                .addComponent(botaoAtualizar)
+                .addGap(42, 42, 42)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botaoAtualizar)
+                    .addComponent(jButton1))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(284, Short.MAX_VALUE))
+                .addContainerGap(285, Short.MAX_VALUE))
         );
 
         jMenu1.setText("Menu");
@@ -244,6 +257,35 @@ public class ViewTarefas extends javax.swing.JFrame {
     
     }//GEN-LAST:event_BotaoRemoverActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        listarTodasAsTarefas();
+    }//GEN-LAST:event_jButton1ActionPerformed
+    private void listarTodasAsTarefas() {
+
+        ControleAgenda controle = new ControleAgenda();
+        java.util.List<modelo.ModeloAgenda> tarefas = controle.listarTarefas();
+
+        DefaultTableModel modelo = (DefaultTableModel) jTableTarefas.getModel();
+        modelo.setRowCount(0);
+
+        for (modelo.ModeloAgenda t : tarefas) {
+            modelo.addRow(new Object[]{
+                t.getDescricao(),
+                t.getPrioridade(),
+            });
+        }
+StringBuilder msg = new StringBuilder("Tarefas agendadas:\n\n");
+
+    for (modelo.ModeloAgenda t : tarefas) {
+        msg.append(t.getDescricao())
+           .append(" - ")
+           .append(t.getPrioridade())
+           .append("\n");
+    }
+
+    JOptionPane.showMessageDialog(this, msg.toString());
+}
     public static void main(String args[]) {
   
         java.awt.EventQueue.invokeLater(() -> new ViewTarefas().setVisible(true));
@@ -253,6 +295,7 @@ public class ViewTarefas extends javax.swing.JFrame {
     private javax.swing.JButton BotaoRemover;
     private javax.swing.JButton botaoAdicionar;
     private javax.swing.JButton botaoAtualizar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBoxPrioridade;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
