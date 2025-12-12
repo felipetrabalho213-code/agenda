@@ -232,29 +232,25 @@ public class ViewTarefas extends javax.swing.JFrame {
 
     private void BotaoRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoRemoverActionPerformed
         // TODO add your handling code here:
-                                             
-    int linha = jTableTarefas.getSelectedRow();
+        int linha = jTableTarefas.getSelectedRow();
 
-    if (linha < 0) {
-        JOptionPane.showMessageDialog(this, "Selecione uma tarefa para remover.");
-        return;
-    }
-    // pegar linha da tabela que vc está clicando
-    // percorrer tods as informações daquela linha 
-    // pegar o titulo daquela linha e passar como parametro na função deletarTarefa(tituloEncontrado)
-    ControleAgenda a1 = new ControleAgenda();
-    DefaultTableModel modelo = (DefaultTableModel) jTableTarefas.getModel();
-    modelo.removeRow(linha);
-    String descricao = jTextFieldTitulo.getText();
-    boolean ok = a1.deletarTarefa(descricao);
-    
+        if (linha < 0) {
+            JOptionPane.showMessageDialog(this, "Selecione uma tarefa para remover.");
+            return;
+        }
+        
+        DefaultTableModel modelo = (DefaultTableModel) jTableTarefas.getModel();
+        String tituloDaTabela = (String) modelo.getValueAt(linha, 0);
+        modelo.removeRow(linha);
 
-    if (ok) {
-        JOptionPane.showMessageDialog(this, "Tarefa removida!");
-    } else {
-        JOptionPane.showMessageDialog(this, "Erro ao remover do arquivo!");
-    }
-    
+        ControleAgenda controle = new ControleAgenda();
+        boolean ok = controle.deletarTarefa(tituloDaTabela);
+
+        if (ok) {
+            JOptionPane.showMessageDialog(this, "Tarefa removida com sucesso!");
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao remover a tarefa do arquivo!");
+        }    
     }//GEN-LAST:event_BotaoRemoverActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
