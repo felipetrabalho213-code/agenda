@@ -1,14 +1,7 @@
-visao\ViewTarefas$6.class
-modelo\AgendaDAO.class
-modelo\ModeloAgenda.class
-visao\ViewTarefas$4.class
-visao\ViewTarefas$7.class
-visao\ViewTarefas$3.class
-visao\ViewTarefas.class
 controle\ControleAgenda.class
+modelo\AgendaDAO.class
 visao\ViewPrincipal$1.class
-visao\ViewTarefas$2.class
-visao\ViewTarefas$1.class
-visao\ViewTarefas$5.class
+modelo\ModeloAgenda.class
 visao\ViewPrincipal.class
+visao\ViewTarefas.class
 visao\ViewPrincipal$2.class

@@ -2,6 +2,8 @@ package controle;
 
 import modelo.AgendaDAO;
 import modelo.ModeloAgenda;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class ControleAgenda {
@@ -9,39 +11,36 @@ public class ControleAgenda {
     private AgendaDAO dao = new AgendaDAO();
 
     public boolean cadastrarTarefa(String descricao, String prioridade) {
-        if (descricao == null || descricao.trim().isEmpty()) {
-            System.err.println("Erro: Descrição da tarefa não pode ser vazia.");
-            return false;
-        }
+        if (descricao == null || descricao.trim().isEmpty()) return false;
 
-        ModeloAgenda novaTarefa = new ModeloAgenda(descricao, prioridade);
-        dao.salvar(novaTarefa);
+        String data = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+                .format(new Date());
+
+        ModeloAgenda tarefa = new ModeloAgenda(descricao, prioridade, data);
+
+        dao.salvar(tarefa);
         return true;
     }
 
-    public ModeloAgenda buscarTarefaPorDescricao(String descricao) {
+    public boolean atualizarTarefa(String descricaoOriginal, String novaDescricao, String novaPrioridade) {
+
         List<ModeloAgenda> tarefas = dao.listarTodos();
-        for (ModeloAgenda tarefa : tarefas) {
-            if (tarefa.getDescricao().equals(descricao)) {
-                return tarefa;
+
+        for (ModeloAgenda t : tarefas) {
+            if (t.getDescricao().equals(descricaoOriginal)) {
+
+                String novaData = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+                        .format(new Date());
+
+                t.setDescricao(novaDescricao);
+                t.setPrioridade(novaPrioridade);
+                t.setDataCriacao(novaData);
+
+                dao.atualizar(t);
+                return true;
             }
         }
-        return null;
-    }
-
-    public boolean atualizarTarefa(String descricaoAntiga, String novaDescricao, String novaPrioridade, String novaDataCriacao) {
-
-        ModeloAgenda tarefa = buscarTarefaPorDescricao(descricaoAntiga);
-
-        if (tarefa == null) {
-            return false;
-        }
-
-        tarefa.setDescricao(novaDescricao);
-        tarefa.setPrioridade(novaPrioridade);
-        tarefa.setDataCriacao(novaDataCriacao);
-
-        return dao.atualizar(descricaoAntiga, tarefa);
+        return false;
     }
 
     public boolean deletarTarefa(String descricao) {
