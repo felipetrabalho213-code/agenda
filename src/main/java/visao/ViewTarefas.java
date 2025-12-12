@@ -39,6 +39,7 @@ public class ViewTarefas extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableTarefas = new javax.swing.JTable();
         jComboBoxPrioridade = new javax.swing.JComboBox<>();
+        botaoAtualizar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
 
@@ -72,6 +73,11 @@ public class ViewTarefas extends javax.swing.JFrame {
 
         BotaoRemover.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 12)); // NOI18N
         BotaoRemover.setText("Remover");
+        BotaoRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotaoRemoverActionPerformed(evt);
+            }
+        });
 
         jTableTarefas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -100,6 +106,9 @@ public class ViewTarefas extends javax.swing.JFrame {
             }
         });
 
+        botaoAtualizar.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 12)); // NOI18N
+        botaoAtualizar.setText("Atualizar");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -125,6 +134,10 @@ public class ViewTarefas extends javax.swing.JFrame {
                         .addGap(27, 27, 27)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 751, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(22, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(botaoAtualizar)
+                .addGap(351, 351, 351))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,9 +153,11 @@ public class ViewTarefas extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botaoAdicionar)
                     .addComponent(BotaoRemover))
-                .addGap(84, 84, 84)
+                .addGap(43, 43, 43)
+                .addComponent(botaoAtualizar)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(283, Short.MAX_VALUE))
+                .addContainerGap(284, Short.MAX_VALUE))
         );
 
         jMenu1.setText("Menu");
@@ -202,6 +217,33 @@ public class ViewTarefas extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_botaoAdicionarActionPerformed
 
+    private void BotaoRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoRemoverActionPerformed
+        // TODO add your handling code here:
+                                             
+    int linha = jTableTarefas.getSelectedRow();
+
+    if (linha < 0) {
+        JOptionPane.showMessageDialog(this, "Selecione uma tarefa para remover.");
+        return;
+    }
+    // pegar linha da tabela que vc está clicando
+    // percorrer tods as informações daquela linha 
+    // pegar o titulo daquela linha e passar como parametro na função deletarTarefa(tituloEncontrado)
+    ControleAgenda a1 = new ControleAgenda();
+    DefaultTableModel modelo = (DefaultTableModel) jTableTarefas.getModel();
+    modelo.removeRow(linha);
+    String descricao = jTextFieldTitulo.getText();
+    boolean ok = a1.deletarTarefa(descricao);
+    
+
+    if (ok) {
+        JOptionPane.showMessageDialog(this, "Tarefa removida!");
+    } else {
+        JOptionPane.showMessageDialog(this, "Erro ao remover do arquivo!");
+    }
+    
+    }//GEN-LAST:event_BotaoRemoverActionPerformed
+
     public static void main(String args[]) {
   
         java.awt.EventQueue.invokeLater(() -> new ViewTarefas().setVisible(true));
@@ -210,6 +252,7 @@ public class ViewTarefas extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotaoRemover;
     private javax.swing.JButton botaoAdicionar;
+    private javax.swing.JButton botaoAtualizar;
     private javax.swing.JComboBox<String> jComboBoxPrioridade;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
@@ -220,4 +263,8 @@ public class ViewTarefas extends javax.swing.JFrame {
     private javax.swing.JLabel labelGerenciadorDeTarefas;
     private javax.swing.JLabel labelTitulo;
     // End of variables declaration//GEN-END:variables
+
+    private boolean removerDoTxt(int linha) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

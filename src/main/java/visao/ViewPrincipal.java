@@ -32,31 +32,36 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         LabelBemVindo = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        botaoTarefas = new javax.swing.JButton();
+        botaoSobre = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        jPanel1.setBackground(new java.awt.Color(102, 102, 102));
+        jPanel1.setBackground(new java.awt.Color(0, 102, 102));
 
         LabelBemVindo.setBackground(new java.awt.Color(255, 255, 255));
-        LabelBemVindo.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        LabelBemVindo.setText("Seja bem vindo ao gerenciador de tarefas ");
+        LabelBemVindo.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 24)); // NOI18N
+        LabelBemVindo.setForeground(new java.awt.Color(255, 255, 255));
+        LabelBemVindo.setText("Seja bem-vindo ao gerenciador de tarefas ");
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jButton1.setText("Tarefas");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        botaoTarefas.setBackground(new java.awt.Color(0, 102, 102));
+        botaoTarefas.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 24)); // NOI18N
+        botaoTarefas.setForeground(new java.awt.Color(255, 255, 255));
+        botaoTarefas.setText("Tarefas");
+        botaoTarefas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                botaoTarefasActionPerformed(evt);
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Sobre");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        botaoSobre.setBackground(new java.awt.Color(0, 102, 102));
+        botaoSobre.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 14)); // NOI18N
+        botaoSobre.setForeground(new java.awt.Color(255, 255, 255));
+        botaoSobre.setText("Sobre");
+        botaoSobre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                botaoSobreActionPerformed(evt);
             }
         });
 
@@ -67,29 +72,27 @@ public class ViewPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(63, 63, 63)
-                                .addComponent(LabelBemVindo))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(340, 340, 340)
-                                .addComponent(jButton1)))
-                        .addGap(0, 68, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2)))
-                .addContainerGap())
+                        .addGap(393, 393, 393)
+                        .addComponent(botaoTarefas))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(142, 142, 142)
+                        .addComponent(LabelBemVindo)))
+                .addContainerGap(119, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(botaoSobre)
+                .addGap(25, 25, 25))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addGap(21, 21, 21)
                 .addComponent(LabelBemVindo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 292, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(168, 168, 168)
-                .addComponent(jButton2)
-                .addGap(31, 31, 31))
+                .addGap(155, 155, 155)
+                .addComponent(botaoTarefas)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 318, Short.MAX_VALUE)
+                .addComponent(botaoSobre, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -100,21 +103,22 @@ public class ViewPrincipal extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void botaoTarefasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoTarefasActionPerformed
         ViewTarefas telaTarefas = new ViewTarefas();
         telaTarefas.setVisible(true);
         this.dispose(); //fechar tela
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_botaoTarefasActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-            JOptionPane.showMessageDialog(
+    private void botaoSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSobreActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(
         this, 
         "Título da Aplicação:Gerenciador de Tarefas\n" +
         "Versão: 1.0\n" +
@@ -123,7 +127,8 @@ public class ViewPrincipal extends javax.swing.JFrame {
         "Sobre",
         JOptionPane.INFORMATION_MESSAGE
     );
-    }//GEN-LAST:event_jButton2ActionPerformed
+        
+    }//GEN-LAST:event_botaoSobreActionPerformed
 
     /**
      * @param args the command line arguments
@@ -152,8 +157,8 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel LabelBemVindo;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton botaoSobre;
+    private javax.swing.JButton botaoTarefas;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
