@@ -1,10 +1,5 @@
-escovar os dentes;Alto
-entregar trabalho;Alto
-dormir;Alto
-dormir;Baixo
-entregar atividade;Médio
-teste;Médio
-Teste - Priscila;Médio
-Teste 2 - Priscila;Alto
-dormir;Alto
-Entragar projeto;Alto
+Estudar Java+;Alto;12/12/2025 17:14:36
+Levar bola no parque;Médio;12/12/2025 17:05:00
+Dentista da Adolê;Médio;12/12/2025 17:21:31
+Agendar corte de cabelo;Médio;12/12/2025 17:05:43
+realizar entrega dasencomendas;Alto;12/12/2025 17:23:34
