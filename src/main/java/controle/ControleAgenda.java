@@ -22,26 +22,25 @@ public class ControleAgenda {
         return true;
     }
 
-    public boolean atualizarTarefa(String descricaoOriginal, String novaDescricao, String novaPrioridade) {
+   public boolean atualizarTarefa(String descricaoOriginal, String novaDescricao, String novaPrioridade) {
 
-        List<ModeloAgenda> tarefas = dao.listarTodos();
+    List<ModeloAgenda> tarefas = dao.listarTodos();
 
-        for (ModeloAgenda t : tarefas) {
-            if (t.getDescricao().equals(descricaoOriginal)) {
+    for (ModeloAgenda t : tarefas) {
+        if (t.getDescricao().equals(descricaoOriginal)) {
 
-                String novaData = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
-                        .format(new Date());
+            String novaData = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+                    .format(new Date());
 
-                t.setDescricao(novaDescricao);
-                t.setPrioridade(novaPrioridade);
-                t.setDataCriacao(novaData);
+            ModeloAgenda tarefaAtualizada = new ModeloAgenda(novaDescricao, novaPrioridade, novaData);
 
-                dao.atualizar(t);
-                return true;
-            }
+            dao.atualizar(descricaoOriginal, tarefaAtualizada);
+            return true;
         }
-        return false;
     }
+    return false;
+}
+
 
     public boolean deletarTarefa(String descricao) {
         return dao.deletar(descricao);

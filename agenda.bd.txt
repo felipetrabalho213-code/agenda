@@ -1,2 +1,5 @@
-tewste;Alta;12/12/2025 22:33:04
-grama;Baixa;12/12/2025 22:31:16
+Estudar React;Alta;12/12/2025 22:43:09
+Estudar Modelagem de dados;Média;12/12/2025 22:43:31
+Mobile First;Alta;12/12/2025 22:42:40
+Estudar java;Média;12/12/2025 22:37:33
+Estudar oracle;Alta;12/12/2025 22:42:14

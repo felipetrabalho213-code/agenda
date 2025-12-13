@@ -15,18 +15,17 @@ public class AgendaDAO {
         salvarTodosNoArquivo(tarefas);
     }
 
-    // Atualizar tarefa existente (com base no título original)
-    public void atualizar(ModeloAgenda tarefaAtualizada) {
-        List<ModeloAgenda> tarefas = listarTodos();
-        for (int i = 0; i < tarefas.size(); i++) {
-            if (tarefas.get(i).getDescricao().trim()
-                    .equalsIgnoreCase(tarefaAtualizada.getDescricao().trim())) {
-                tarefas.set(i, tarefaAtualizada);
-                break;
-            }
+    public void atualizar(String descricaoOriginal, ModeloAgenda tarefaAtualizada) {
+    List<ModeloAgenda> tarefas = listarTodos();
+    for (int i = 0; i < tarefas.size(); i++) {
+        if (tarefas.get(i).getDescricao().trim()
+                .equalsIgnoreCase(descricaoOriginal.trim())) {
+            tarefas.set(i, tarefaAtualizada);
+            break;
         }
-        salvarTodosNoArquivo(tarefas);
     }
+    salvarTodosNoArquivo(tarefas);
+}
 
     // Deletar tarefa com base no título
     public boolean deletar(String descricao) {
